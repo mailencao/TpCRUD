@@ -1,4 +1,6 @@
-import User from "../models/userModel.js";
+import bodyParser from 'body-parser';
+const { json } = bodyParser;
+import User from "../models/userModel.js"
 
 export const create = async (req, res) => {
     try {
@@ -24,5 +26,36 @@ export const get = async (req, res) => {
         res.status(200).json(users)
     } catch (error) {
         res.status(500).json({error: "error en el servidor"});
+    }
+}; 
+
+export const update = async (req, res) => {
+    try{
+        const id = req.params.id;
+        const userExist = await User.findOne({_id: id});
+        if(!userExist) {
+            return res.status(404).json({message: "El usuario no existe"});
+        }
+        const updeteUser = await User.findByIdAndUpdate({ _id: id }, req.body, { 
+            new: true 
+        });
+        res.status(201).json(updeteUser);
+    } catch (error) {
+        res.status(500).json({error: "Error en el servidor"});
+    }
+};
+
+
+export const deleteUser = async (req, res) => {
+    try{
+        const _id = req.params.id;
+        const userExist = await User.findOne({ _id });
+        if(!userExist) {
+            return res.status(404).json({message: "El usuario no existe" });
+        }
+        await User.findByIdAndDelete(_id)
+        res.status(201).json({messaje: "Usurario eliminado"})
+    } catch (error) {
+        res.status(500).json({error: "Error en el servidor"});
     }
 };
