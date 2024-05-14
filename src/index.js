@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import userRoute from "./routes/userRoutes.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,3 +21,5 @@ mongoose.connect(MONGOURI).then(() => {
 app.get("/", (req, res) => {
     res.send("hola mundo")
 });
+
+app.use("/api/user", userRoute);
