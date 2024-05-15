@@ -13,7 +13,8 @@ export const create = async (req, res) => {
         const savedUser = await userData.save()
         res.status(200).json(savedUser);
     } catch (error) {
-        res.status(500).json({error: "error en el servidor"});
+        console.log(error);
+        res.status(500).json({error: "Error en el servidor"});
     };
 };
 
@@ -25,7 +26,7 @@ export const get = async (req, res) => {
         }
         res.status(200).json(users)
     } catch (error) {
-        res.status(500).json({error: "error en el servidor"});
+        res.status(500).json({error: "Error en el servidor"});
     }
 }; 
 
