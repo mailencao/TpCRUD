@@ -10,11 +10,11 @@ export const create = async (req, res) => {
         if(userExist){
             return res.status(400).json({message: `El email "${email}", ya se encuentra en uso`})
         }
-        const savedUser = await userData.save()
-        res.status(200).json(savedUser);
+        const savedUser = await userData.save();
+        const { clave, ... rest } = savedUser;
+        res.status(200).json(rest);
     } catch (error) {
-        console.log(error);
-        res.status(500).json({error: "Error en el servidor"});
+        res.status(500).json({ message: "Error en el servidor", error });
     };
 };
 

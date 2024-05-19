@@ -1,4 +1,5 @@
-import mongoose, { now } from "mongoose"
+import mongoose, { now } from "mongoose";
+import { claveValida } from "../utils/validators.js";
 
 const userSchema = new mongoose.Schema({
 
@@ -52,7 +53,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        match: /^(?=.*[A-Z])(?=.*[$%-_<.>])(?=.*\d)[^\s]{6,20}$/,
+        validate: {
+            validator: function (value) {
+                return claveValida(value);
+            }, message: "La contraseña debe tener almenos una mayuscula, un numero, almenos un $%-_<.> y entre 6 y 20 caracteres" 
+        }
     },
 
     fechaRegistro: {
