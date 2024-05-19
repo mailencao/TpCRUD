@@ -1,11 +1,11 @@
-import mongoose, { now } from "mongoose";
+import mongoose from "mongoose";
 import { claveValida } from "../utils/validators.js";
 
 const userSchema = new mongoose.Schema({
 
     nombre:{
         type: String,
-        required: true,
+        required: [true, `Este campo es obligatorio`],
         trim: true,
         lowercase: true,
         minlength: 2,
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
 
     apellido:{
         type: String,
-        required: true,
+        required: [true, `Este campo es obligatorio`],
         trim: true,
         lowercase: true,
         minlength: 2,
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
 
     edad:{
         type: Number,
-        required: true,
+        required: [true, `Este campo es obligatorio`],
         trim: true,
         min: 18,
         max: 110,
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
 
     nombreUsuario:{
         type: String,
-        required: true,
+        required: [true, `Este campo es obligatorio`],
         unique: true,
         trim: true,
         minlength: 5,
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
 
     email:{
         type: String,
-        required: true,
+        required: [true, `Este campo es obligatorio`],
         unique: true,
         trim: true,
         minlength: 8,
@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
     
     clave:{
         type: String,
-        required: true,
+        required: [true, `Este campo es obligatorio`],
         trim: true,
         validate: {
             validator: function (value) {

@@ -26,7 +26,7 @@ export const get = async (req, res) => {
         }
         res.status(200).json(users)
     } catch (error) {
-        res.status(500).json({error: "Error en el servidor"});
+        res.status(500).json({ message: "Error en el servidor", error });
     }
 }; 
 
@@ -42,7 +42,7 @@ export const update = async (req, res) => {
         });
         res.status(201).json(updeteUser);
     } catch (error) {
-        res.status(500).json({error: "Error en el servidor"});
+        res.status(500).json({ message: "Error en el servidor", error });
     }
 };
 
@@ -57,6 +57,6 @@ export const deleteUser = async (req, res) => {
         await User.findByIdAndDelete(_id)
         res.status(201).json({messaje: "Usurario eliminado"})
     } catch (error) {
-        res.status(500).json({error: "Error en el servidor"});
+        res.status(500).json({ message: "Error en el servidor", error });
     }
 };
