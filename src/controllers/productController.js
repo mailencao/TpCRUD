@@ -29,10 +29,24 @@ export const get = async (req, res) => {
     }
 }; 
 
+
+export const getFindOne = async (req, res) => {
+    try{ 
+        const nombre = req.params.nombre
+        const product = await Product.findOne({ nombre: nombre });
+        if (!product) {
+            return res.status(404).json({message: "El producto no existe "});
+        }
+        res.status(200).json(product)
+    } catch (error) {
+        res.status(500).json({ message: "Error en el servidor", error });
+    }
+};
+
 export const update = async (req, res) => {
     try{
         const id = req.params.id;
-        const productExist = await Product.findOne({_id: id});
+        const productExist = await Product.findOne({ _id: id });
         if(!productExist) {
             return res.status(404).json({message: "El producto no existe"});
         }
