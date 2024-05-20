@@ -35,7 +35,7 @@ export const getFindOne = async (req, res) => {
         const nombre = req.params.nombre
         const product = await Product.findOne({ nombre: nombre });
         if (!product) {
-            return res.status(404).json({message: "El producto no existe "});
+            return res.status(404).json({message:  `El producto no existe`});
         }
         res.status(200).json(product)
     } catch (error) {
@@ -53,7 +53,7 @@ export const update = async (req, res) => {
         const updeteProduct = await Product.findByIdAndUpdate({ _id: id }, req.body, { 
             new: true 
         });
-        res.status(201).json(updeteProduct);
+        res.status(201).json({messaje: "Producto actualizado", updeteProduct});
     } catch (error) {
         res.status(500).json({ message: "Error en el servidor", error });
     }

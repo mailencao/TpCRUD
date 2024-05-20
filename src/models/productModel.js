@@ -35,7 +35,12 @@ const productSchema = new mongoose.Schema({
             message: props => `${props.value} no es valido`,
         },
     },
-    categoria: String,
+
+    categoria: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "category"
+    },
+    
     destacado: Boolean,
 
     fechaRegistro: {
@@ -44,4 +49,5 @@ const productSchema = new mongoose.Schema({
     }
 });
 
+productSchema.set("toJSON", { getters: true, setters: true });
 export default mongoose.model("product", productSchema);
