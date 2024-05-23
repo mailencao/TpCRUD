@@ -47,7 +47,6 @@ export const update = async (req, res) => {
     }
 };
 
-
 export const deleteUser = async (req, res) => {
     try{
         const _id = req.params.id;
@@ -64,12 +63,12 @@ export const deleteUser = async (req, res) => {
 
 export const validar = async (req, res) => {
     try{
-        const userFound = await User.findOneAndDelete({ email: req.body.email });
+        const userFound = await User.findOne({ email: req.body.email });
         if(!userFound){
             res.status(400).json({ message:"El email y/o la contraseña son incorrectos" })
         };
         if(bcrypt.compareSync(req.body.clave, userFound.clave)){
-            return true
+            res.status(200).json({ messaje: "Usted a ingesado correctamente" });
         } else {
             res.json({ message:"El email y/o la contraseña son incorrectos" });
             return
