@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 const { json } = bodyParser;
-import User from "../models/userModel.js"
+import User from "../models/userModel.js";
+import bcrypt from "bcrypt";
 
 export const create = async (req, res) => {
     try {
@@ -22,7 +23,7 @@ export const get = async (req, res) => {
     try{ 
         const users = await User.find();
         if (users.length === 0) {
-            return res.status(404).json({message: "no existen usuarios"});
+            return res.status(404).json({ message: "no existen usuarios" });
         }
         res.status(200).json(users)
     } catch (error) {
@@ -56,6 +57,23 @@ export const deleteUser = async (req, res) => {
         }
         await User.findByIdAndDelete(_id)
         res.status(201).json({messaje: "Usurario eliminado"})
+    } catch (error) {
+        res.status(500).json({ message: "Error en el servidor", error });
+    }
+};
+
+export const validar = async (req, res) => {
+    try{
+        const userFound = await User.findOneAndDelete({ email: req.body.email });
+        if(!userFound){
+            res.status(400).json({ message:"El email y/o la contraseña son incorrectos" })
+        };
+        if(bcrypt.compareSync(req.body.clave, userFound.clave)){
+            return true
+        } else {
+            res.json({ message:"El email y/o la contraseña son incorrectos" });
+            return
+        }
     } catch (error) {
         res.status(500).json({ message: "Error en el servidor", error });
     }

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { claveValida } from "../utils/validators.js";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
 
@@ -64,6 +65,11 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
     }
+});
+
+userSchema.pre("save", function (next) {
+    this.clave = bcrypt.hashSync(this.clave, 10);
+    next();
 });
 
 export default mongoose.model("user", userSchema);

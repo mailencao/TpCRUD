@@ -19,7 +19,7 @@ export const create = async (req, res) => {
 
 export const get = async (req, res) => {
     try{ 
-        const products = await Product.find();
+        const products = await Product.find().populate("category");
         if (products.length === 0) {
             return res.status(404).json({message: "no existen productos"});
         }
@@ -33,7 +33,7 @@ export const get = async (req, res) => {
 export const getFindOne = async (req, res) => {
     try{ 
         const nombre = req.params.nombre
-        const product = await Product.findOne({ nombre: nombre });
+        const product = await Product.findOne({ nombre: nombre }).populate("category");
         if (!product) {
             return res.status(404).json({message:  `El producto no existe`});
         }
