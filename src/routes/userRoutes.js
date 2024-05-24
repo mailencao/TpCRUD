@@ -6,8 +6,8 @@ const userRoute = express.Router()
 
 userRoute.post("/create", create);
 userRoute.get("/getAll", verifyTokenMiddleware, get);
-userRoute.put("/update/:id", update);
-userRoute.delete("/deleteUser/:id", deleteUser);
+userRoute.put("/update/:id", verifyTokenMiddleware, update);
+userRoute.delete("/deleteUser/:id", verifyTokenMiddleware, deleteUser);
 userRoute.post("/login", validar);
 
 export default userRoute;
