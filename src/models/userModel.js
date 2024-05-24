@@ -30,15 +30,6 @@ const userSchema = new mongoose.Schema({
         max: 110,
     },
 
-    nombreUsuario:{
-        type: String,
-        required: [true, `Este campo es obligatorio`],
-        unique: true,
-        trim: true,
-        minlength: 5,
-        maxlength: 20,
-    },
-
     email:{
         type: String,
         required: [true, `Este campo es obligatorio`],

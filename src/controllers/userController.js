@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 const { json } = bodyParser;
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const create = async (req, res) => {
     try {
@@ -68,10 +69,15 @@ export const validar = async (req, res) => {
             res.status(400).json({ message:"El email y/o la contraseña son incorrectos" })
         };
         if(bcrypt.compareSync(req.body.clave, userFound.clave)){
-            res.status(200).json({ messaje: "Usted a ingesado correctamente" });
+            const payload = {
+                userId: userFound._id,
+                userEmail: userFound.email,
+            };
+            const token = jwt.sign(payload, "secreto", { expiresIn: "1h" });
+            res.status(200).json({ token });
         } else {
-            res.json({ message:"El email y/o la contraseña son incorrectos" });
-            return
+            res.status(400).json({ message:"El email y/o la contraseña son incorrectos" });
+            return;
         }
     } catch (error) {
         res.status(500).json({ message: "Error en el servidor", error });
